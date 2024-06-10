@@ -69,9 +69,10 @@ static void fuzzy_polygon(Polygon &poly, double fuzzy_skin_thickness, double fuz
         // This function gets called from the thread pool, so we can't
         // srand(time(NULL)) because every thread will likely see the same
         // timestamp and generate the same noise profile
-        srand(hash<thread::id>()(this_thread::get_id()));
+        srand(std::hash<std::thread::id>()(std::this_thread::get_id()));
         rand_init = true;
     }
+    srand(1);
 
     const double min_dist_between_points = fuzzy_skin_point_distance * 3. / 4.; // hardcoded: the point distance may vary between 3/4 and 5/4 the supplied value
     const double range_random_point_dist = fuzzy_skin_point_distance / 2.;
